@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>spring boot websocket example</title>
+    <script src="bower_components/sockjs/sockjs.min.js"></script>
+    <script src="3rd/stomp.js"></script>
+</head>
+<body>
+<h3 id="messages"></h3>
+<script type="text/javascript">
+    window.onload = function () {
+        var messageList = document.getElementById("messages");
+        // socket endpoint
+        var socket = new SockJS('/stomp');
+        var stompClient = Stomp.over(socket);
+        stompClient.connect({}, function () {
+            // 订阅 /topic/message endpoint
+            stompClient.subscribe("/topic/message", function (data) {
+                messageList.innerHTML = data.body;
+            });
+        });
+    };
+</script>
+</body>
+</html>
